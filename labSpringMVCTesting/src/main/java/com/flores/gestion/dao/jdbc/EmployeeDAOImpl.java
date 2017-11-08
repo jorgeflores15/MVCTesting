@@ -26,7 +26,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public Employee findEmployee(int employee_id) throws DAOException, EmptyResultException {
 
-		String query = "S2?";
+		String query = "SELECT employee_id, login, password, first_name, last_name, salary, department_id "
+				+ " FROM employees WHERE employee_id = ?";
 
 		Object[] params = new Object[] { employee_id };
 
@@ -44,24 +45,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			throw new DAOException(e.getMessage());
 		}
 	}
-
-	@Override
-	public void update(String  login, String password, String lastname, String firstname, int salary, int dptId) throws DAOException {
-
-
-		String query = "UPDATE employees SET password = ?, first_name =?, last_name = ?, salary = ? WHERE login = ?";
-
-		Object[] params = new Object[] { password, lastname, firstname, salary, login };
-
-		
-		try {
-			jdbcTemplate.update(query, params);
-		} catch (Exception e) {
-			logger.info("Error: " + e.getMessage());
-			throw new DAOException(e.getMessage());
-		}
-	}
-
+	
 	@Override
 	public void create(String login, String password, String lastname, String firstname, int salary, int dptId) throws DAOException {
 
@@ -69,25 +53,20 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 		Object[] params = new Object[] { login, password, lastname, firstname, salary, dptId };
 
-		Employee emp = null;
+		//Employee emp = null;
 		
 		try {
 			// create
 			jdbcTemplate.update(query, params);
-			// search
-			emp = this.findEmployeeByLogin(login);
 
-		} catch (EmptyResultException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			logger.info("Error: " + e.getMessage());
+			logger.error("Error: " + e.getMessage());
 			throw new DAOException(e.getMessage());
 		}
 		
 
 	}
-
+	
 	@Override
 	public void delete(String login) throws DAOException {
 
@@ -95,6 +74,22 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 		Object[] params = new Object[] { login };
 
+		try {
+			jdbcTemplate.update(query, params);
+		} catch (Exception e) {
+			logger.info("Error: " + e.getMessage());
+			throw new DAOException(e.getMessage());
+		}
+	}
+	
+	@Override
+	public void update(String  login, String password, String lastname, String firstname, int salary, int dptId) throws DAOException {
+
+		String query = "UPDATE employees SET password = ?, first_name =?, last_name = ?, salary = ? WHERE login = ?";
+
+		Object[] params = new Object[] { password, lastname, firstname, salary, login };
+
+		
 		try {
 			jdbcTemplate.update(query, params);
 		} catch (Exception e) {
@@ -124,7 +119,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			throw new DAOException(e.getMessage());
 		}
 	}
-	
+
 	@Override
 	public List<Employee> findAllEmployees() throws DAOException, EmptyResultException {
 
@@ -147,29 +142,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public List<Employee> findEmployeesByName(String name) throws DAOException, EmptyResultException {
 
-		String query = "SELECT employee_id, login, password, first_name, last_name, salary, department_id "
-				+ " FROM employees WHERE upper(first_name) like upper(?) ";
+		String query = "SELECT employee_id, login, password, first_name, last_name, salary, department_id FROM employees WHERE upper(first_name) like upper(?) ";
+
 		Object[] params = new Object[] { "%" + name + "%" };
-		try {
 
-			List<Employee> employees = jdbcTemplate.query(query, params, new EmployeeMapper());
-			//
-			return employees;
-
-		} catch (EmptyResultDataAccessException e) {
-			throw new EmptyResultException();
-		} catch (Exception e) {
-			logger.info("Error: " + e.getMessage());
-			throw new DAOException(e.getMessage());
-		}
-	}
-	
-	@Override
-	public List<Employee> findEmployeesByNameLastNameOrSalary(String first_name, String last_name, int salary) throws DAOException, EmptyResultException {
-
-		String query = "SELECT employee_id, login, password, first_name, last_name, salary, department_id "
-				+ " FROM employees WHERE upper(first_name) like upper(?) and upper(last_name) like upper(?) and upper(salarys) like upper(?) ";
-		Object[] params = new Object[] { first_name , last_name ,salary };
 		try {
 
 			List<Employee> employees = jdbcTemplate.query(query, params, new EmployeeMapper());
@@ -185,7 +161,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	public Employee validate(String login, String pwd) throws LoginException, DAOException {
-	
+		
 		logger.info("validate(): login: " + login + ", clave: " + pwd);
 	
 		if ("".equals(login) && "".equals(pwd)) {
@@ -211,6 +187,29 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			throw new DAOException(e.getMessage());
 		}
 	}
+
+	
+	@Override
+	public List<Employee> findEmployeesByNameLastNameOrSalary(String first_name, String last_name, int salary) throws DAOException, EmptyResultException {
+
+		String query = "SELECT employee_id, login, password, first_name, last_name, salary, department_id "
+				+ " FROM employees WHERE upper(first_name) like upper(?) and upper(last_name) like upper(?) and upper(salary) like upper(?) ";
+		Object[] params = new Object[] { first_name , last_name ,salary };
+		try {
+
+			List<Employee> employees = jdbcTemplate.query(query, params, new EmployeeMapper());
+			//
+			return employees;
+
+		} catch (EmptyResultDataAccessException e) {
+			throw new EmptyResultException();
+		} catch (Exception e) {
+			logger.info("Error: " + e.getMessage());
+			throw new DAOException(e.getMessage());
+		}
+	}
+
+
 
 }
 

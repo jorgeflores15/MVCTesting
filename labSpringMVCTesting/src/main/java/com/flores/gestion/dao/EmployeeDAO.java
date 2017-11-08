@@ -2,11 +2,14 @@ package com.flores.gestion.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.flores.gestion.exception.DAOException;
 import com.flores.gestion.exception.EmptyResultException;
 import com.flores.gestion.exception.LoginException;
 import com.flores.gestion.model.Employee;
 
+@Repository
 public interface EmployeeDAO {
 
 	Employee findEmployee(int id) throws DAOException, EmptyResultException;
@@ -26,4 +29,5 @@ public interface EmployeeDAO {
 	List<Employee> findEmployeesByName(String name) throws DAOException, EmptyResultException;
 
 	Employee validate(String idEmployee, String clave) throws LoginException, DAOException;
+	
 }

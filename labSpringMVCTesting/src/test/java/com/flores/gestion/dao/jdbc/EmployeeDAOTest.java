@@ -45,7 +45,7 @@ public class EmployeeDAOTest {
 		logger.info("Antes de cada metodo");
 	}
 	
-	@Test
+	//@Test
 	public void testFindEmployeeById() {
 
 		try {
@@ -70,12 +70,12 @@ public class EmployeeDAOTest {
 
 	}
 	
-	@Test
+	//@Test
 	public void testFindEmployeeByNameAndSalary() {
 
 		try {
 			//
-			Employee emp = (Employee) employeeDAO.findEmployeesByNameLastNameOrSalary("jaime","gomez",100);
+			Employee emp = (Employee) employeeDAO.findEmployeesByNameLastNameOrSalary("jaime","gomez",2500);
 
 		} catch (EmptyResultException e) {
 			fail(e.getMessage());
@@ -85,6 +85,30 @@ public class EmployeeDAOTest {
 
 	}
 
+	//@Test
+	public void testFindEmployeeByUser() {
+
+		try {
+  			
+			Employee emp = employeeDAO.findEmployeeByLogin("jgomez");
+			Employee emp2 = employeeDAO.findEmployeeByLogin("jflores");
+  
+ 			Assert.assertEquals("123456", emp.getPassword());
+ 			Assert.assertEquals("Jaime", emp.getFirstname());
+ 			Assert.assertEquals("Gomez", emp.getLastname());
+ 			Assert.assertEquals(2505, emp.getSalary());
+ 			Assert.assertEquals("contraseña", emp2.getPassword());
+ 			Assert.assertEquals("Jorge", emp2.getFirstname());
+ 			Assert.assertEquals("Flores", emp2.getLastname());
+ 			Assert.assertEquals(5500, emp2.getSalary());
+  
+  			logger.info(emp.toString());
+  		} catch (EmptyResultException e) {
+  			fail(e.getMessage());
+		} catch (DAOException e) {
+			fail(e.getMessage());
+		}
+	}
 	
 	
 	@After

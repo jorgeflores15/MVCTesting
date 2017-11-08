@@ -23,6 +23,39 @@ public class EmployeeServiceImpl implements EmployeeService  {
 
 		return emp;
 	}
+	
+	@Override
+	public List<Employee> findAll() throws DAOException, EmptyResultException {
+		
+		List<Employee> emp = employeeDAO.findAllEmployees();
+
+		return emp;
+	}
+	
+	@Override
+	public void update(String login, String password, String lastname, String firstname, int salary, int dptId)
+			throws DAOException {
+	
+		employeeDAO.update(login, password, lastname, firstname, salary, dptId);
+	}
+	
+	@Override
+	public void delete(String login) throws DAOException {
+		 
+		employeeDAO.delete(login);
+	
+	}
+
+	@Override
+	public void create(String login, String password, String lastname, String firstname, int salary, int dptId)
+			throws DAOException {
+	
+		employeeDAO.create(login, password, lastname, firstname, salary, dptId);
+
+	}
+	
+
+
 	/*
 	@Override
 	public Employee findEmployeesByName(String first_name) throws DAOException, EmptyResultException {
@@ -36,18 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService  {
 		return emp;
 	}
 	*/
-	@Override
-	public List<Employee> findAll() throws DAOException, EmptyResultException {
-		
-		List<Employee> emp = employeeDAO.findAllEmployees();
-
-		return emp;
-	}
-	@Override
-	public void update(String login, String password, String lastname, String firstname, int salary, int dptId)
-			throws DAOException {
 	
-		employeeDAO.update(login, password, lastname, firstname, salary, dptId);
-	}
+
 
 }

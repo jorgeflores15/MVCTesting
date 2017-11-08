@@ -35,7 +35,7 @@ public class EmployeeControllerIntegrationTest {
 	    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 	}
 	
-    @Test
+    //@Test
     public void givenWac_whenServletContext_thenItProvidesGreetController() {
     ServletContext servletContext = wac.getServletContext();
      
@@ -44,7 +44,7 @@ public class EmployeeControllerIntegrationTest {
     Assert.assertNotNull(wac.getBean("employeeController"));
     }
     
-    @Test
+    
 	public void list() throws Exception {
 		mockMvc.perform(get("/admin/emp/list"))
 				.andExpect(status().isOk())

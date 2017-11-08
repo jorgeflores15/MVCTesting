@@ -17,13 +17,13 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="col-md-6">
-				<h4 class="text-center">Edit Employee</h4>
+				<h4 class="text-center">Create Employee</h4>
 				<hr>
 				<form:form method="post" action="../editsave">
-					<form:hidden path="employeeId" />
+				<form:hidden path="employeeId" />
 					<div class="form-group">
 						<label for="login">Login: </label>
-						<form:input path="login" class="form-control" readonly="true" />
+						<form:input path="login" class="form-control" />
 					</div>
 					<div class="form-group">
 						<label for="password">Password: </label>
@@ -46,12 +46,13 @@
 						<label for="department.departmentId">Department: </label>
 						<form:select path="department.departmentId" items="${departmentList}" />
 					</div>
-					--%>	
+					--%>
 					<div class="form-group">
-						<input type="submit" value="Save" class="btn btn-success" />
+						<input type="submit" value="Create" class="btn btn-success" />
 						<a href="<%=request.getContextPath()%>/admin/emp/list" class="btn btn-danger">Cancel</a>
 					</div>
 				</form:form>
+                              <font color="red">${message}</font>
 			</div>
 		</div>
 	</div>

@@ -19,7 +19,7 @@ public class SecurityServiceTest {
 	@Autowired
 	private SecurityService securityService;
 
-	@Test
+	
 	public void testValidate() {
 
 		try {
